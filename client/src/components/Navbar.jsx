@@ -24,7 +24,7 @@ export default function NavBar() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Perpustakaan Malang
+                  Perpustakaan
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>

@@ -15,6 +15,14 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { UserContextProvider } from '../context/userContext'
 import Edit from './pages/EditUser'
 import Admin from './pages/Admin'
+import AddBuku from './pages/AddBuku'
+import AddKategori from './pages/AddKategori'
+import Err404 from './pages/NotFound'
+import Bukat from './pages/Bukat'
+import User from './pages/User'
+import BorrowBook from './pages/BorrowBook'
+import Staff from './pages/StaffView'
+import Review from './pages/Review'
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true
@@ -32,7 +40,15 @@ function App() {
   <Route path='/dashboard' element={<Dashboard />} />
   <Route path='/dashboard/admin/edit/:id' element={<Edit/>} />
   <Route path='/dashboard/admin' element={<Admin />} />
+  <Route path='/dashboard/buku' element={<AddBuku />} />
+  <Route path='/dashboard/kategori' element={<AddKategori />} />
+  <Route path='/dashboard/bukat' element={<Bukat />} />
+  <Route path='/dashboard/user' element={<User />} />
+  <Route path='/dashboard/user/review' element={<Review />} />
+  <Route path='/dashboard/user/pinjam' element={<BorrowBook />} />
+  <Route path='/dashboard/staff' element={<Staff />} />
   </Route>
+  <Route path='*' element={<Err404 />} />
 </Routes>
 </UserContextProvider>
   )

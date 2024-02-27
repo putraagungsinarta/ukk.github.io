@@ -2,12 +2,18 @@ import { useContext, useState, useEffect } from "react"
 import { UserContext } from '../../context/userContext'
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
+import jsPDF from "jspdf"
+import 'jspdf-autotable'
+
 
 export default function Dashboard() {
+  const pdf = jsPDF;
   const history = useNavigate();
   const [users, setUsers] = useState([]);
+  const [book, setBook] = useState([]);
   const {Users} = useContext(UserContext);
   const navigate = useNavigate();
+  const currentDate = new Date().toLocaleDateString();
 
     useEffect(() => {
       axios.get('/user')
@@ -18,6 +24,16 @@ export default function Dashboard() {
           console.error('Error fetching user profile:', error);
         });
     }, []);
+
+    useEffect(() => {
+      axios.get('/buku')
+        .then((response) => {
+          setBook(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching buku:', error);
+        });
+      }, []);
   
     const directionButton = () => {
       if (!Users) {
@@ -49,6 +65,7 @@ export default function Dashboard() {
     };
 
     const handleDelete = (userId) => {
+      if(confirm('are you sure you want to delete this user?')){
       axios.delete(`/user/${userId}/delete` ,{
         method: 'DELETE',
       })
@@ -57,7 +74,54 @@ export default function Dashboard() {
           setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
         })
         .catch((error) => console.error('Error deleting user:', error));
-    };
+    }};
+
+    const generatePdf = () => {
+      const doc = new pdf();
+    
+      doc.addImage('/logo.png', 'JPEG', 10, 10, 40, 40);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Daftar Buku', 60, 25);
+      doc.text(`${currentDate}`, 60, 35);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+    
+      const columns = [ 'id_buku', 'Judul Buku', 'Penulis', 'Penerbit', 'Tahun Terbit' ];
+      const rows = book.map(buku => [buku.id_buku, buku.judul, buku.penulis, buku.penerbit, buku.tahunterbit]);
+      
+        doc.autoTable({
+        startY: 60,
+        head: [columns],
+        body: rows,
+      });
+    
+      doc.save("data-buku.pdf")
+    }
+
+    const generatePdfUser = () => {
+      const doc = new pdf();
+  
+      doc.addImage('../../public/logo.png', 'JPEG', 10, 10, 40, 40);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Daftar Pengguna', 60, 25);
+      doc.text(`${currentDate}`, 60, 35);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+  
+      const columns = ['Username', 'Email', 'Nama Lengkap', 'alamat', 'role'];
+      const rows = users.map(user => [user.username, user.email, user.nama_lengkap, user.alamat, user.role]);
+      
+        doc.autoTable({
+        startY: 60,
+        head: [columns],
+        body: rows,
+      });
+  
+      doc.save("user-list.pdf")
+    }
+    
 
     const renderDashboardContent = () => {
       if (!Users) {
@@ -68,11 +132,20 @@ export default function Dashboard() {
         case 'admin':
           return (
             <div>
-              <p>You have admin privileges.</p>
-              <button onClick={directionButton}>Admin Action</button>
+              <p>What Are You Planning For Today's Activities, Admin?</p>
+              <button onClick={directionButton}>Create New User And Manage User Account</button><br />
+              <Link to={'/dashboard/buku'}>
+              <button>Create New Book And Manage The Listed Book</button><br />
+              </Link>
+              <Link to={'/dashboard/kategori'}>
+                <button>Create A New Book Category</button>
+              </Link>
+              <Link to={'/dashboard/bukat'}>
+                <button>Create A New Book Category Relation</button>
+              </Link>
               <h3>Pengguna Yang Terdaftar :</h3>
-                    <div className="row justify-content-center">
-      <div className="col-auto">
+          <div className="row mt-4 mb-4 ms-1">
+          <div className="col-auto">
           <table className="table-responsive">
           <thead>
           <tr>
@@ -100,6 +173,8 @@ export default function Dashboard() {
         ))}
         </tbody>
         </table>
+        <button className="justify-content-center" onClick={generatePdf}>generate buku pdf</button> <br />
+        <button className="justify-content-center" onClick={generatePdfUser}> generate userList pdf</button>
           </div>
           </div>
               </div>
@@ -108,8 +183,45 @@ export default function Dashboard() {
         case 'staff':
           return (
             <div>
-              <p>You have staff privileges.</p>
-              <button onClick={directionButton}>Staff Action</button>
+              <p>What Are You Planning For Today's Activities, Staff?</p>
+              <button onClick={directionButton}>Look at the current listed Book on the library</button>
+              <Link to={'/dashboard/buku'}>
+              <button>Create New Book And Manage The Listed Book</button><br />
+              </Link>
+              <Link to={'/dashboard/kategori'}>
+                <button>Create A New Book Category</button>
+              </Link>
+              <Link to={'/dashboard/bukat'}>
+                <button>Create A New Book Category Relation</button>
+              </Link>
+
+              <h3>The current book listed as :</h3>
+      <div className="row">
+      <div className="col-auto">
+          <table className="table-responsive">
+          <thead>
+          <tr>
+            <th>Judul Buku</th>
+            <th>Penulis</th>
+            <th>Penerbit</th>
+            <th>Tahun Terbit</th>
+          </tr>
+        </thead>
+        <tbody>
+        {book?.map?.((buku) => (
+          
+          <tr key={buku._id}>
+            <td>{buku.judul}</td>
+            <td>{buku.penulis}</td>
+            <td>{buku.penerbit}</td>
+            <td>{buku.tahunterbit}</td>
+          </tr>
+        ))}
+        </tbody>
+        </table>
+        <button className="justify-content-center" onClick={generatePdf}>generate buku pdf</button> <br />
+          </div>
+          </div>
             </div>
           );
   

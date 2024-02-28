@@ -44,7 +44,7 @@ function App() {
   <Route path='/dashboard/kategori' element={<AddKategori />} />
   <Route path='/dashboard/bukat' element={<Bukat />} />
   <Route path='/dashboard/user' element={<User />} />
-  <Route path='/dashboard/user/review' element={<Review />} />
+  <Route path='/dashboard/user/review/:id' element={<Review />} />
   <Route path='/dashboard/user/pinjam' element={<BorrowBook />} />
   <Route path='/dashboard/staff' element={<Staff />} />
   </Route>

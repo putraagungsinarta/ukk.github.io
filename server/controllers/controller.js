@@ -1,6 +1,3 @@
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const app = express();
 const User = require('../models/user');
 const Buku = require('../models/buku');
 const Kategori = require('../models/kategori');

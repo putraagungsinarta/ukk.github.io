@@ -40,7 +40,6 @@ useEffect(() => {
             <th>Penulis</th>
             <th>Penerbit</th>
             <th>Tahun Terbit</th>
-            <th>Sampul Buku</th>
           </tr>
         </thead>
         <tbody>
@@ -51,13 +50,9 @@ useEffect(() => {
             <td>{buku.penerbit}</td>
             <td>{buku.tahunterbit}</td>
             <td>
-            {buku.image && (
-              <img
-                src={`data:${buku.image.contentType};base64,${buku.image.data}`}
-                alt={buku.judul}
-                style={{ maxWidth: '20px', maxHeight: '60px' }}
-              />
-            )}
+            <Link to={`/dashboard/user/review/${buku._id}`}>
+            <button>Beri Ulasan</button>
+            </Link>
             </td>
           </tr>
         ))}

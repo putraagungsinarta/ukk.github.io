@@ -30,16 +30,18 @@ useEffect(() => {
   
   return (
     <div>
+        <div className="container"><div className="about-content mt-5 mb-5">
       <h3>Buku Yang Anda Pinjam Saat Ini :</h3>
       <div className="row justify-content-center">
       <div className="col-auto">
-          <table className="table-responsive">
+          <table className="table-responsive table table-striped">
           <thead>
           <tr>
             <th>Judul Buku</th>
             <th>Penulis</th>
             <th>Penerbit</th>
             <th>Tahun Terbit</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -65,6 +67,6 @@ useEffect(() => {
           </div>
       <h2>Buat Ulasan Mengenai Sebuah Buku: </h2>
       <button>Ulas Sebuah Buku</button>
-    </div>
+    </div></div></div>
   )
 }

@@ -49,19 +49,6 @@ const handleOnChange = (e) =>{
         ...data, [e.target.name]: e.target.value,
     })
 }
-//   return (
-//     <div>
-//       <h3>{book.judul}</h3>
-//       <div className="card">
-//       <div className="col-auto">
-//         <Link to='/dashboard/user/pinjam'>
-//             <button>Pinjam Buku Baru</button>
-//         </Link>
-//           </div>
-//           </div>
-//       <h2>Buat Ulasan Mengenai Sebuah Buku: </h2>
-//       <button>Ulas Sebuah Buku</button>
-//     </div>
     return (
         <div>
             test

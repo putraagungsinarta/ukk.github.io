@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -7,12 +7,26 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import axios from 'axios';
 
 export default function NavBar() {
+const history = useNavigate();
+  const handleLogout = () => {
+    axios.post('/logout')
+      .then(() => {
+        localStorage.removeItem('token');
+        history('/');
+      })
+      .catch((error) => {
+        console.error('Logout error:', error);
+      });
+  };
+
+
     return (
 <nav>
       {['xxl'].map((expand) => (
-        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+        <Navbar key={expand} expand={expand} className="bg-body-tertiary">
           <Container fluid>
             <Navbar.Brand href="/">
             Malang City Library</Navbar.Brand>
@@ -49,15 +63,7 @@ export default function NavBar() {
                   </NavDropdown>
                   </Nav>
                 </Nav>
-                <Form className="d-flex">
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                  />
-                  <Button variant="outline-success">Search</Button>
-                </Form>
+                  <Button variant="outline-dark" onClick={handleLogout}>Logout</Button>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

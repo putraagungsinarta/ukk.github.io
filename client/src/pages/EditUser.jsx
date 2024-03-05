@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {toast} from 'react-hot-toast'
 import axios from 'axios'
+import Footer from '../components/Footer'
+
 
 
 const EditUser = ({userId}) =>{
@@ -63,6 +65,7 @@ const EditUser = ({userId}) =>{
             <input type="text" name="nama_lengkap" value={user.nama_lengkap} onChange={handleInputChange} />
           </label>
           <button onClick={handleUpdate}>Update User</button>
+          <Footer />
       </div>
   );
 };

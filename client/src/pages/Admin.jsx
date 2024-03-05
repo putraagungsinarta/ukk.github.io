@@ -5,6 +5,7 @@ import { useNavigate, useParams, Link } from "react-router-dom"
 import {toast} from 'react-hot-toast'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
+import Footer from '../components/Footer'
 
 export default function Admin() {
   const {Users} = useContext(UserContext);
@@ -154,6 +155,7 @@ export default function Admin() {
           <button className="justify-content-center" onClick={generatePdf}> generate userList pdf</button>
           </div>
           </div>
+<Footer />
     </div>
   )
 }

@@ -50,7 +50,7 @@ export default function BorrowBook() {
   };
 
   return (
-    <div>
+    <div>    <div className="container"><div className="about-content mt-5 mb-5">
       <h2>Borrow Book</h2>
       <div>
         {books.map((buku) => (
@@ -58,7 +58,7 @@ export default function BorrowBook() {
             <h3>{buku.judul}</h3>
             <p>ID Buku: {buku.id_buku}</p>
             <p>Author: {buku.penulis}</p>
-            <p>Penerbit: {buku.penerbit}</p>
+            <p>Penerbit: {buku.penerbit}</p> <br />
           </div>
         ))}
             <form onSubmit={handleBorrow}>
@@ -75,6 +75,6 @@ export default function BorrowBook() {
             <button>Pinjam Buku</button>
             </form>
       </div>
-    </div>
+    </div></div></div>
   )
 }

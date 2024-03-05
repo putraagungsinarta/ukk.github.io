@@ -4,6 +4,12 @@ import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
 import jsPDF from "jspdf"
 import 'jspdf-autotable'
+import Footer from '../components/Footer'
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
 
 
 export default function Dashboard() {
@@ -53,17 +59,9 @@ export default function Dashboard() {
       }
     }
 
-    const handleLogout = () => {
-      axios.post('/logout')
-        .then(() => {
-          localStorage.removeItem('token');
-          history('/');
-        })
-        .catch((error) => {
-          console.error('Logout error:', error);
-        });
-    };
-
+    const divStyle = {
+      overflowX: 'scroll'
+    }
     const handleDelete = (userId) => {
       if(confirm('are you sure you want to delete this user?')){
       axios.delete(`/user/${userId}/delete` ,{
@@ -132,9 +130,20 @@ export default function Dashboard() {
         case 'admin':
           return (
             <div>
-              <p>What Are You Planning For Today's Activities, Admin?</p>
-              <button onClick={directionButton}>Create New User And Manage User Account</button><br />
-              <Link to={'/dashboard/buku'}>
+              <h3>What Are You Planning For Today's Activities, Admin?</h3>
+              <Navbar>
+          <Container>
+          <Nav className="me-auto">
+          <table className="table-responsive table" ><tr>
+            <td><Nav.Link variant="outline-white" href="/dashboard/buku">Create New Book And Manage The Listed Book</Nav.Link></td>
+            <td><Nav.Link onClick={directionButton}>Create New User And Manage User Account</Nav.Link></td>
+            <td><Nav.Link href="/dashboard/kategori">Create A New Book Category</Nav.Link></td>
+            <td><Nav.Link href="/dashboard/bukat">Create A New Book Category Relation</Nav.Link></td>
+            </tr></table>
+          </Nav>
+          </Container>
+         </Navbar>
+              {/* <Link to={'/dashboard/buku'}>
               <button>Create New Book And Manage The Listed Book</button><br />
               </Link>
               <Link to={'/dashboard/kategori'}>
@@ -142,11 +151,12 @@ export default function Dashboard() {
               </Link>
               <Link to={'/dashboard/bukat'}>
                 <button>Create A New Book Category Relation</button>
-              </Link>
+              </Link> */}
               <h3>Pengguna Yang Terdaftar :</h3>
-          <div className="row mt-4 mb-4 ms-1">
+          <div className="row mt-4 mb-4 ms-1 justify-content-center">
           <div className="col-auto">
-          <table className="table-responsive">
+          <div className="wow">
+          <table className="table-responsive table table-striped" style={divStyle}>
           <thead>
           <tr>
             <th>Username</th>
@@ -172,18 +182,20 @@ export default function Dashboard() {
           </tr>
         ))}
         </tbody>
-        </table>
-        <button className="justify-content-center" onClick={generatePdf}>generate buku pdf</button> <br />
-        <button className="justify-content-center" onClick={generatePdfUser}> generate userList pdf</button>
+        </table> <div className="position-absolute lmao">
+                  <button className="lmao" onClick={generatePdf}>generate buku pdf</button>
+        </div> <div className="position-absolute lmao1">
+        <button className="lmao1" onClick={generatePdfUser}> generate userList pdf</button>
+        </div>
           </div>
           </div>
-              </div>
+              </div></div>
           );
 
         case 'staff':
           return (
             <div>
-              <p>What Are You Planning For Today's Activities, Staff?</p>
+              <p className="text-center justify-content-center">What Are You Planning For Today's Activities, Staff?</p>
               <button onClick={directionButton}>Look at the current listed Book on the library</button>
               <Link to={'/dashboard/buku'}>
               <button>Create New Book And Manage The Listed Book</button><br />
@@ -196,9 +208,9 @@ export default function Dashboard() {
               </Link>
 
               <h3>The current book listed as :</h3>
-      <div className="row">
+      <div className="row justify-content-around">
       <div className="col-auto">
-          <table className="table-responsive">
+          <table className="table-responsive table table-striped" width={'100%'}>
           <thead>
           <tr>
             <th>Judul Buku</th>
@@ -240,13 +252,14 @@ export default function Dashboard() {
 
   return (
     <div>
+    <div className="container"><div className="about-content mt-5 mb-5">
         <h1>Dashboard</h1>
         {!!Users && (<h2>Hi {Users.username}!</h2>)}
         <br />
 
       {renderDashboardContent()}
-
-        <button onClick={handleLogout}>Logout</button>
+    </div></div>
+<Footer />
     </div>
   )
 }
